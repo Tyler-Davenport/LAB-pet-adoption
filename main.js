@@ -1,19 +1,19 @@
 const pets = [
     {
       id: 1,
+      imageUrl: "http://kittentoob.com/wp-content/uploads/2015/06/funny-cat-with-a-towel.jpg",
       name: "Dusty",
       color: "Green",
       specialSkill: "Gives sincere apologies.",
       type: "cat",
-      imageUrl: "http://kittentoob.com/wp-content/uploads/2015/06/funny-cat-with-a-towel.jpg",
     },
     {
         id: 2,
       name: "Trouble",
+      imageUrl: "http://www.jozilife.co.za/wp-content/uploads/The-Dino-Expo.jpg",
       color: "Brown",
       specialSkill: "Just picks the tomatoes off of a sandwich instead of requesting a whole new sandwich.",
       type: "dino",
-      imageUrl: "http://www.jozilife.co.za/wp-content/uploads/The-Dino-Expo.jpg",
     },
     {
       id: 3,
@@ -240,3 +240,18 @@ const pets = [
       imageUrl: "http://lsae2.iypcdn.com/static//modules/uploads/photos/language1/dino-live-22.jpg?119"
     }
   ];
+
+  const targetingApp = document.querySelector("#app");
+
+let domString = "";
+for (const pet of pets) {
+  domString += `<div class="card" style="width: 18rem;">
+      <img src=${pet.imageUrl} class="card-img-top" alt=${pet.name}>
+      <div class="card-body">
+        <h5 class="card-title">${pet.type}</h5>
+        <p class="card-text">${pet.specialSkill}</p>
+        <p class="card-text">${pet.color}</p>
+      </div>
+    </div>`;
+};
+targetingApp.innerHTML = domString;
