@@ -242,8 +242,8 @@ const pets = [
   ];
 
   const renderToDom = (divId, htmlToRender) => {
-    const selectedDiv = document.querySelector(divId);
-    selectedDiv.innerHTML = htmlToRender;
+    const targetingApp = document.querySelector(divId);
+    targetingApp.innerHTML = htmlToRender;
   };
   
       const cardsOnDom = (array) => {
@@ -256,12 +256,11 @@ const pets = [
           <h5 class="card-title">${pet.type}</h5>
           <p class="card-text">${pet.specialSkill}</p>
           <p class="card-text">${pet.color}</p>
+          <a href="#" class="btn btn-danger" id="delete">Goodbye Friend!</a>
           </div>
           </div>`;
         }
-        
-  
-    renderToDom("#app", domString);
+        renderToDom("#app", domString);
   };
   
   const filter = (array, typeString) => {
@@ -273,11 +272,51 @@ const pets = [
         typeArray.push(pet);
       }
     }
-  
+    
     return typeArray;
   };
   
-  const allPetsButton = document.querySelector("#btn-allPets")
+  const form = document.querySelector('form');
+  
+  const addFriend = (e) => {
+    e.preventDefault();
+    
+    const newPetObj = {
+      id: pets.length + 1,
+      name: document.querySelector("#name").value,
+      color: document.querySelector("#color").value,
+      specialSkill: document.querySelector("#specialSkill").value,
+      type: document.querySelector("#type").value,
+      imageUrl: document.querySelector("#imageUrl").value,
+    };
+    
+    pets.push(newPetObj);
+    cardsOnDom(pets);
+    form.reset();
+    }
+    
+    form.addEventListener("submit", addFriend);
+
+    const app = document.querySelector("#app");
+    app.addEventListener("click", (e) => {
+    
+      if (e.target.id.includes("delete")) {
+        const [, id] = e.target.id.split("--");
+        const index = pets.findIndex((e) => e.id === Number(id));
+        pets.splice(index, 1);
+        
+        cardsOnDom(pets);
+      }
+    });
+
+    const startApp = () => {
+      cardsOnDom(pets);
+      // events(); // ALWAYS LAST
+    };
+    
+    startApp();
+    
+    const allPetsButton = document.querySelector("#btn-allPets")
   const dinoButton = document.querySelector("#btn-dinos")
   const dogsButton = document.querySelector("#btn-dogs")
   const catsButton = document.querySelector("#btn-cats")
