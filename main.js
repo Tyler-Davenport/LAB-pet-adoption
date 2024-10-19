@@ -240,12 +240,12 @@ const pets = [
       imageUrl: "http://lsae2.iypcdn.com/static//modules/uploads/photos/language1/dino-live-22.jpg?119"
     }
   ];
-
+// render to dom utility function
   const renderToDom = (divId, htmlToRender) => {
     const targetingApp = document.querySelector(divId);
     targetingApp.innerHTML = htmlToRender;
   };
-  
+  // gets cards on dom
       const cardsOnDom = (array) => {
         let domString = "";
         for (const pet of array) {
@@ -260,13 +260,14 @@ const pets = [
           </div>
           </div>`;
         }
+
         renderToDom("#app", domString);
   };
-  
+        //function to filter through the object for specific element
   const filter = (array, typeString) => {
-    const typeArray = [];
+    const typeArray = []; 
   
-  
+  //for of loop
     for (const pet of array) {
       if (pet.type === typeString) {
         typeArray.push(pet);
@@ -275,12 +276,14 @@ const pets = [
     
     return typeArray;
   };
-  
+  //target form on the dom
   const form = document.querySelector('form');
-  
+
+  //prevents page refresh (will wipe your events because we are coding locally)
   const addFriend = (e) => {
     e.preventDefault();
-    
+
+    //allows a new array item to be pushed to the object through our form element
     const newPetObj = {
       id: pets.length + 1,
       name: document.querySelector("#name").value,
@@ -294,37 +297,42 @@ const pets = [
     cardsOnDom(pets);
     form.reset();
     }
-    
+    //event listener for the form submit and pass it in the function
     form.addEventListener("submit", addFriend);
 
+    // TARGETING ELEMENTS ON THE DOM
+// To target, we will use the querySelector method and pass it the selector,
+// which in this case is an id with the value of "app"
     const app = document.querySelector("#app");
+
+    //event listener to capture clicks (in this case "delete")
     app.addEventListener("click", (e) => {
     
+      //check e.target.id includes "delete"
+      //destructuring: https://github.com/orgs/nss-evening-web-development/discussions/11
       if (e.target.id.includes("delete")) {
         const [, id] = e.target.id.split("--");
+        //add logic to remove from array. (.findIndex is an array method)
         const index = pets.findIndex((e) => e.id === Number(id));
+        //splice modifies the original array
         pets.splice(index, 1);
         
+        //repaint the dom with the updated array
         cardsOnDom(pets);
       }
     });
 
-    const startApp = () => {
-      cardsOnDom(pets);
-      // events(); // ALWAYS LAST
-    };
-    
-    startApp();
-    
+    //target buttons on dom
     const allPetsButton = document.querySelector("#btn-allPets")
-  const dinoButton = document.querySelector("#btn-dinos")
-  const dogsButton = document.querySelector("#btn-dogs")
+    const dinoButton = document.querySelector("#btn-dinos")
+    const dogsButton = document.querySelector("#btn-dogs")
   const catsButton = document.querySelector("#btn-cats")
   
+  //Add click event to show all the array items within the object on button click using the function we created above
   allPetsButton.addEventListener("click", () => {
     cardsOnDom(pets);
   });
-  
+  //Add click event to filter all the individual array items with specific perameters on button click
   dinoButton.addEventListener("click", () => {
     const dinoTypePets = filter(pets, "dino");
     cardsOnDom(dinoTypePets);
@@ -339,3 +347,11 @@ const pets = [
     const catsTypePets = filter(pets, "cat");
     cardsOnDom(catsTypePets);
   });
+            //
+
+    // events(); // ALWAYS LAST
+    const startApp = () => {
+      cardsOnDom(pets);
+    };
+    
+    startApp();
